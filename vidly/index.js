@@ -16,9 +16,9 @@ app.listen(port, () => console.log(`Listening on port ${port}......`));
 function validateGenre(genre) {
     // making a schema object for letting Joi know, that the name property of the object that 
     // we get, should be a string, minimum length should be 3, and it should be required
-    const schema = {
+    const schema = Joi.object({
         name: Joi.string().min(3).required()
-    };
+    });
 
     // returning the boolean value of object by comapring with schema object
     // return Joi.validate(genre, schema);
