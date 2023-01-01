@@ -13,7 +13,7 @@ const genres = [
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}......`));
 
-function validateGenre(genre) {
+validateGenre = (genre) => {
     // making a schema object for letting Joi know, that the name property of the object that 
     // we get, should be a string, minimum length should be 3, and it should be required
     const schema = Joi.object({
@@ -42,7 +42,7 @@ app.get('/api/genres/:id', (req, res) => {
 });
 
 app.post('/api/genres', (req, res) => {
-    const { error } = validateGenre(req.body);
+    const { error, value } = validateGenre(req.body);
     if (error != null) {
         return res.status(404).send(error.details[0].message);
     }
@@ -60,7 +60,7 @@ app.post('/api/genres', (req, res) => {
 
 app.put('/api/genres/:id', (req, res) => {
     // this will store the whole genre's body of the given ID (if there is one)
-    const genre = genres.find(c => c.id == parseInt(params.id));
+    const genre = genres.find(c => c.id == parseInt(req.params.id));
     if (genre == null) {
         return res.status(404).send('The genre with this ID was not found');
     }
@@ -76,7 +76,7 @@ app.put('/api/genres/:id', (req, res) => {
 });
 
 app.delete('/api/genres/:id', (req, res) => {
-    const genre = genres.find(c => c.id == parseInt(params.id));
+    const genre = genres.find(c => c.id == parseInt(req.params.id));
     if (genre == null) {
         return res.send(404).send('The genre with this ID was not found');
     }
